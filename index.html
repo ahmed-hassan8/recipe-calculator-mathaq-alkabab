@@ -1,154 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Calculator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="text/babel">
-        const recipes = {
-            'meat-kebab': {
-                code: 'm88',
-                name: { en: 'Meat Kebab', ar: 'كباب لحم' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 25 },
-                    { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
-                    { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
-                    { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
-                    { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
-                    { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
-                    { code: 'm72', nameEn: 'Topside Beef', nameAr: 'لحم توب سايد', weight: 650 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 250 },
-                    { code: 'sk-1229', nameEn: 'Bobby Veal Meat', nameAr: 'لحم بيوفيل', weight: 100 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 }
-                ]
-            },
-            'chicken-kebab': {
-                code: '',
-                name: { en: 'Chicken Kebab', ar: 'كباب دجاج' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm14', nameEn: 'Chicken Shawarma', nameAr: 'شاورما فراخ', weight: 820 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 180 },
-                    { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
-                    { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
-                    { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 45 },
-                    { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 15 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 }
-                ]
-            },
-            // ... other recipes remain the same
-        };
+import React, { useState } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Calculator, Print, RotateCcw } from 'lucide-react';
 
-        function RecipeCalculator() {
-            const [selectedRecipe, setSelectedRecipe] = React.useState('meat-kebab');
-            const [desiredWeight, setDesiredWeight] = React.useState('');
-            const [calculatedRecipe, setCalculatedRecipe] = React.useState(null);
+const RecipeCalculator = () => {
+  const [selectedRecipe, setSelectedRecipe] = useState('meat-kebab');
+  const [desiredWeight, setDesiredWeight] = useState('');
+  const [calculatedRecipe, setCalculatedRecipe] = useState(null);
+  const [isMetric, setIsMetric] = useState(true);
 
-            const calculateNewRecipe = (ingredients, originalBatchWeight, newBatchWeight) => {
-                return ingredients.map(ingredient => ({
-                    ...ingredient,
-                    newWeight: Math.round((ingredient.weight / originalBatchWeight) * newBatchWeight * 100) / 100
-                }));
-            };
+  const recipes = {
+    'meat-kebab': {
+      code: 'm88',
+      name: { en: 'Meat Kebab', ar: 'كباب لحم' },
+      batchWeight: 1000,
+      ingredients: [
+        { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 25 },
+        { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
+        { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
+        { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
+        { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
+        { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
+        { code: 'm72', nameEn: 'Topside Beef', nameAr: 'لحم توب سايد', weight: 650 },
+        { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 250 },
+        { code: 'sk-1229', nameEn: 'Bobby Veal Meat', nameAr: 'لحم بيوفيل', weight: 100 },
+        { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 }
+      ]
+    },
+    'chicken-kebab': {
+      code: '',
+      name: { en: 'Chicken Kebab', ar: 'كباب دجاج' },
+      batchWeight: 1000,
+      ingredients: [
+        { code: 'm14', nameEn: 'Chicken Shawarma', nameAr: 'شاورما فراخ', weight: 820 },
+        { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 180 },
+        { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
+        { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
+        { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
+        { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 45 },
+        { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 15 },
+        { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
+        { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 }
+      ]
+    }
+  };
 
-            const handleCalculate = () => {
-                const weightInKg = parseFloat(desiredWeight);
-                if (isNaN(weightInKg) || weightInKg <= 0) {
-                    alert('Please enter a valid weight greater than 0');
-                    return;
-                }
+  const calculateNewRecipe = (ingredients, originalBatchWeight, newBatchWeight) => {
+    return ingredients.map(ingredient => ({
+      ...ingredient,
+      newWeight: Math.round((ingredient.weight / originalBatchWeight) * newBatchWeight * 100) / 100
+    }));
+  };
 
-                const weightInGrams = weightInKg * 1000;
-                const currentRecipe = recipes[selectedRecipe];
-                const newRecipe = calculateNewRecipe(
-                    currentRecipe.ingredients,
-                    currentRecipe.batchWeight,
-                    weightInGrams
-                );
-                setCalculatedRecipe(newRecipe);
-            };
+  const handleCalculate = () => {
+    const weight = parseFloat(desiredWeight);
+    if (isNaN(weight) || weight <= 0) {
+      alert('Please enter a valid weight greater than 0');
+      return;
+    }
 
-            return (
-                <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-                    <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-2xl font-bold">Recipe Calculator</h1>
-                        <span className="text-gray-500">حاسبة الوصفات</span>
-                    </div>
+    const weightInGrams = isMetric ? weight * 1000 : weight * 453.592;
+    const currentRecipe = recipes[selectedRecipe];
+    const newRecipe = calculateNewRecipe(
+      currentRecipe.ingredients,
+      currentRecipe.batchWeight,
+      weightInGrams
+    );
+    setCalculatedRecipe(newRecipe);
+  };
 
-                    <div className="space-y-4">
-                        <div className="flex gap-4 flex-col sm:flex-row">
-                            <select 
-                                value={selectedRecipe}
-                                onChange={(e) => setSelectedRecipe(e.target.value)}
-                                className="flex-1 p-2 border rounded"
-                            >
-                                {Object.entries(recipes).map(([key, recipe]) => (
-                                    <option key={key} value={key}>
-                                        {recipe.code && `[${recipe.code}] `}{recipe.name.en} - {recipe.name.ar}
-                                    </option>
-                                ))}
-                            </select>
-                            <input
-                                type="number"
-                                step="0.1"
-                                placeholder="Enter weight (KG)"
-                                value={desiredWeight}
-                                onChange={(e) => setDesiredWeight(e.target.value)}
-                                className="flex-1 p-2 border rounded"
-                            />
-                            <button 
-                                onClick={handleCalculate}
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                            >
-                                Calculate
-                            </button>
-                        </div>
+  const handleReset = () => {
+    setDesiredWeight('');
+    setCalculatedRecipe(null);
+  };
 
-                        {calculatedRecipe && (
-                            <div className="mt-6 overflow-x-auto">
-                                <table className="w-full border-collapse">
-                                    <thead className="bg-gray-100">
-                                        <tr>
-                                            <th className="px-4 py-2 text-left border">Code</th>
-                                            <th className="px-4 py-2 text-left border">Ingredient - المكون</th>
-                                            <th className="px-4 py-2 text-right border">Weight (g) - الوزن</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {calculatedRecipe.map((ingredient, index) => (
-                                            <tr key={index} className="border-b hover:bg-gray-50">
-                                                <td className="px-4 py-2 border">{ingredient.code}</td>
-                                                <td className="px-4 py-2 border">
-                                                    <div>{ingredient.nameEn}</div>
-                                                    <div className="text-gray-600">{ingredient.nameAr}</div>
-                                                </td>
-                                                <td className="px-4 py-2 text-right border">{ingredient.newWeight.toLocaleString()}</td>
-                                            </tr>
-                                        ))}
-                                        <tr className="font-bold bg-gray-50">
-                                            <td className="px-4 py-2 border" colSpan="2">Total Batch Weight - الوزن الإجمالي</td>
-                                            <td className="px-4 py-2 text-right border">{(parseFloat(desiredWeight) * 1000).toLocaleString()} g</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            );
-        }
+  const handlePrint = () => {
+    window.print();
+  };
 
-        ReactDOM.render(<RecipeCalculator />, document.getElementById('root'));
-    </script>
-</body>
-</html>
+  const formatWeight = (weight) => {
+    if (isMetric) {
+      return weight >= 1000 
+        ? `${(weight/1000).toFixed(2)} kg`
+        : `${weight.toFixed(1)} g`;
+    } else {
+      const lbs = weight / 453.592;
+      return lbs >= 1 
+        ? `${lbs.toFixed(2)} lb`
+        : `${(lbs * 16).toFixed(1)} oz`;
+    }
+  };
+
+  return (
+    <Card className="w-full max-w-4xl mx-auto shadow-lg">
+      <CardHeader className="border-b bg-gradient-to-r from-blue-50 to-indigo-50">
+        <CardTitle className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Calculator className="w-6 h-6 text-blue-600" />
+            <span>Recipe Calculator</span>
+          </div>
+          <span className="text-lg text-gray-600">حاسبة الوصفات</span>
+        </CardTitle>
+      </CardHeader>
+      
+      <CardContent className="space-y-6 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Select 
+            value={selectedRecipe}
+            onValueChange={setSelectedRecipe}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select recipe" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(recipes).map(([key, recipe]) => (
+                <SelectItem key={key} value={key}>
+                  {recipe.code && `[${recipe.code}] `}{recipe.name.en} - {recipe.name.ar}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="relative">    
+            <Input
+              type="number"
+              step="0.1"
+              placeholder={`Enter weight (${isMetric ? 'KG' : 'LB'})`}
+              value={desiredWeight}
+              onChange={(e) => setDesiredWeight(e.target.value)}
+              className="pr-16"
+            />
+            <button
+              onClick={() => setIsMetric(!isMetric)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-sm text-blue-600 hover:text-blue-800"
+            >
+              {isMetric ? 'KG' : 'LB'}
+            </button>
+          </div>
+
+          <div className="flex gap-2">
+            <Button onClick={handleCalculate} className="flex-1 bg-blue-600 hover:bg-blue-700">
+              Calculate
+            </Button>
+            <Button onClick={handleReset} variant="outline" size="icon">
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {calculatedRecipe && (
+          <div className="space-y-4">
+            <div className="flex justify-end">
+              <Button
+                onClick={handlePrint}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Print className="w-4 h-4" />
+                Print Recipe
+              </Button>
+            </div>
+            
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
+              <table className="w-full border-collapse">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left border-b font-semibold text-gray-600">Code</th>
+                    <th className="px-4 py-3 text-left border-b font-semibold text-gray-600">Ingredient - المكون</th>
+                    <th className="px-4 py-3 text-right border-b font-semibold text-gray-600">Weight - الوزن</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {calculatedRecipe.map((ingredient, index) => (
+                    <tr key={index} className="border-b hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3 font-mono text-sm">{ingredient.code}</td>
+                      <td className="px-4 py-3">
+                        <div className="font-medium">{ingredient.nameEn}</div>
+                        <div className="text-gray-600 text-sm">{ingredient.nameAr}</div>
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium">
+                        {formatWeight(ingredient.newWeight)}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="font-bold bg-gray-50">
+                    <td className="px-4 py-3 border-t" colSpan="2">
+                      Total Batch Weight - الوزن الإجمالي
+                    </td>
+                    <td className="px-4 py-3 text-right border-t">
+                      {formatWeight(parseFloat(desiredWeight) * (isMetric ? 1000 : 453.592))}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default RecipeCalculator;

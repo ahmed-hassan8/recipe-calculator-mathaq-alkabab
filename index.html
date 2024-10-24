@@ -24,7 +24,7 @@
         }
         
         .select-wrapper select {
-            /* Removed appearance none to enhance compatibility */
+            appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
@@ -99,7 +99,6 @@
     </div>
 
     <script>
-        // Sample recipes
         const recipes = {
             'meat-kebab': {
                 code: 'm88',
@@ -149,11 +148,54 @@
                     { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
                     { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
                 ]
+            },
+            'tikka': {
+                code: 'sk-1252',
+                name: { en: 'Tikka', ar: 'تكا' },
+                batchWeight: 1000,
+                ingredients: recipes['shish-tawook'].ingredients.map(ing => ({...ing}))
+            },
+            'skewers': {
+                code: 'm89',
+                name: { en: 'Skewers', ar: 'أوصال' },
+                batchWeight: 1000,
+                ingredients: [
+                    { code: 'sk-1245', nameEn: 'Meat Skewers', nameAr: 'أوصال لحم', weight: 1000 },
+                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
+                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+                    { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
+                    { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
+                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 35 }
+                ]
+            },
+            'wings': {
+                code: 'sk-1221',
+                name: { en: 'Wings', ar: 'أجنحة' },
+                batchWeight: 1000,
+                ingredients: [
+                    { code: 'm59', nameEn: 'Chicken Wings', nameAr: 'أجنحة دجاج', weight: 1000 },
+                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 5 },
+                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+                    { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 18.5 },
+                    { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 13 },
+                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
+                    { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
+                ]
             }
         };
 
-        // Initialize select options
+    // Initialize select options
+    document.addEventListener('DOMContentLoaded', () => {
         const recipeSelect = document.getElementById('recipeSelect');
+        
+        // Clear existing options
+        recipeSelect.innerHTML = '<option value="" disabled selected>Select Recipe - اختر الوصفة</option>';
+        
+        // Add recipe options
         Object.entries(recipes).forEach(([key, recipe]) => {
             const option = document.createElement('option');
             option.value = key;
@@ -161,96 +203,89 @@
             recipeSelect.appendChild(option);
         });
 
-        // Event listener for calculate button
-        document.getElementById('calculateBtn').addEventListener('click', function () {
-            const selectedRecipeKey = recipeSelect.value; // Get selected recipe key
-            const selectedRecipe = recipes[selectedRecipeKey]; // Get the corresponding recipe
-            const newBatchWeight = parseFloat(document.getElementById('weightInput').value); // Get user input for weight
-
-            // Check if recipe and weight are selected
-            if (!selectedRecipe || isNaN(newBatchWeight)) {
-                alert('Please select a recipe and enter a valid weight.');
-                return;
+        // Add change event listener
+        recipeSelect.addEventListener('change', (e) => {
+            const selectedRecipe = recipes[e.target.value];
+            if (selectedRecipe) {
+                console.log('Selected recipe:', selectedRecipe.name.en);
+                // Clear any previous results when recipe changes
+                document.getElementById('resultContainer').classList.add('hidden');
+                document.getElementById('recipeBody').innerHTML = '';
             }
-
-            const calculatedRecipe = calculateNewRecipe(selectedRecipe.ingredients, selectedRecipe.batchWeight, newBatchWeight);
-            updateTable(calculatedRecipe, newBatchWeight * 1000); // Convert kg to g for total weight
         });
+    });
+</script>
+<div class="select-wrapper flex-1">
+    <select id="recipeSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value="" disabled selected>Select Recipe - اختر الوصفة</option>
+        <option value="meat-kebab">[m88] Meat Kebab - كباب لحم</option>
+        <option value="chicken-kebab">Chicken Kebab - كباب دجاج</option>
+        <option value="shish-tawook">[m90] Shish Tawook - شيش طاووق</option>
+        <option value="tikka">[sk-1252] Tikka - تكا</option>
+        <option value="skewers">[m89] Skewers - أوصال</option>
+        <option value="wings">[sk-1221] Wings - أجنحة</option>
+    </select>
+</div>          
+// Add ingredient rows
+                    calculatedRecipe.forEach(ingredient => {
+                        const row = document.createElement('tr');
+                        row.className = 'highlight-row border-b hover:bg-gray-50 transition-colors';
+                        
+                        // Code column
+                        const codeCell = document.createElement('td');
+                        codeCell.className = 'px-4 py-3 text-sm text-gray-600';
+                        codeCell.textContent = ingredient.code || '-';
+                        
+                        // Name column
+                        const nameCell = document.createElement('td');
+                        nameCell.className = 'px-4 py-3';
+                        nameCell.innerHTML = `
+                            <div class="text-sm text-gray-800 font-medium">${ingredient.nameEn}</div>
+                            <div class="text-sm text-gray-600">${ingredient.nameAr}</div>
+                        `;
+                        
+                        // Weight column
+                        const totalWeightCell = document.createElement('td');
+                        totalWeightCell.className = 'px-4 py-4 text-right';
+                        totalWeightCell.innerHTML = `
+                            <div class="text-gray-800">${totalWeight.toLocaleString()} g</div>
+                        `;
+                        
+                            <div class="text-xs text-gray-500">
+                                ${(ingredient.newWeight / 1000).toFixed(2)} kg
+                            </div>
+                        `;
+                        
+                        // Append cells to row
+                        row.appendChild(codeCell);
+                        row.appendChild(nameCell);
+                        row.appendChild(weightCell);
+                        recipeBody.appendChild(row);
+                    });
 
-        // Function to calculate new ingredient weights
-        function calculateNewRecipe(ingredients, originalBatchWeight, newBatchWeight) {
-            return ingredients.map(ingredient => ({
-                ...ingredient,
-                newWeight: Math.round((ingredient.weight / originalBatchWeight) * newBatchWeight * 100) / 100
-            }));
-        }
+                    // Add total row
+                    const totalRow = document.createElement('tr');
+                    totalRow.className = 'bg-gray-50 font-semibold border-t-2 border-gray-200';
+                    
+                    const totalLabelCell = document.createElement('td');
+                    totalLabelCell.colSpan = 2;
+                    totalLabelCell.className = 'px-4 py-4';
+                    totalLabelCell.innerHTML = `
+                        <div class="text-gray-800">Total Batch Weight</div>
+                        <div class="text-gray-600">الوزن الإجمالي</div>
+                    `;
 
-        // Function to update the table with calculated values
-        function updateTable(calculatedRecipe, totalWeight) {
-            const resultContainer = document.getElementById('resultContainer');
-            const recipeBody = document.getElementById('recipeBody');
-            
-            // Clear previous results
-            recipeBody.innerHTML = '';
-            
-            calculatedRecipe.forEach(ingredient => {
-                const row = document.createElement('tr');
-                row.className = 'highlight-row border-b hover:bg-gray-50 transition-colors';
-                
-                const codeCell = document.createElement('td');
-                codeCell.className = 'px-4 py-3 text-sm text-gray-600';
-                codeCell.textContent = ingredient.code || '-';
-                
-                const nameCell = document.createElement('td');
-                nameCell.className = 'px-4 py-3';
-                nameCell.innerHTML = `
-                    <div class="text-sm text-gray-800 font-medium">${ingredient.nameEn}</div>
-                    <div class="text-sm text-gray-600">${ingredient.nameAr}</div>
-                `;
-                
-                const weightCell = document.createElement('td');
-                weightCell.className = 'px-4 py-3 text-right';
-                weightCell.innerHTML = `
-                    <div class="text-sm font-medium text-gray-800">
-                        ${ingredient.newWeight.toLocaleString()} g
-                    </div>
-                    <div class="text-xs text-gray-500">
-                        ${(ingredient.newWeight / 1000).toFixed(2)} kg
-                    </div>
-                `;
-                
-                row.appendChild(codeCell);
-                row.appendChild(nameCell);
-                row.appendChild(weightCell);
-                recipeBody.appendChild(row);
-            });
+                    const totalWeightCell = document.createElement('td');
+                    totalWeightCell.className = 'px-4 py-4 text-right';
+                    totalWeightCell.innerHTML = `
+                        <div class="text-gray-800">${totalWeight.toLocaleString()} g</div>
+                        <div class="text-gray-600">${(totalWeight / 1000).toFixed(2)} kg</div>
+                    `;
 
-            // Add total row
-            const totalRow = document.createElement('tr');
-            totalRow.className = 'bg-gray-50 font-semibold border-t-2 border-gray-200';
-            
-            const totalLabelCell = document.createElement('td');
-            totalLabelCell.colSpan = 2;
-            totalLabelCell.className = 'px-4 py-4';
-            totalLabelCell.innerHTML = `
-                <div class="text-gray-800">Total Batch Weight</div>
-                <div class="text-gray-600">الوزن الإجمالي</div>
-            `;
+                    totalRow.appendChild(totalLabelCell);
+                    totalRow.appendChild(totalWeightCell);
+                    recipeBody.appendChild(totalRow);
 
-            const totalWeightCell = document.createElement('td');
-            totalWeightCell.className = 'px-4 py-4 text-right';
-            totalWeightCell.innerHTML = `
-                <div class="text-gray-800">${totalWeight.toLocaleString()} g</div>
-                <div class="text-gray-600">${(totalWeight / 1000).toFixed(2)} kg</div>
-            `;
-
-            totalRow.appendChild(totalLabelCell);
-            totalRow.appendChild(totalWeightCell);
-            recipeBody.appendChild(totalRow);
-
-            // Show results
-            resultContainer.classList.remove('hidden');
-        }
-    </script>
-</body>
-</html>
+                    // Show results with animation
+                    resultContainer.classList.remove('hidden');
+                    resultContainer.classList.add('animate-fade-in');

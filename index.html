@@ -171,32 +171,7 @@
                 recipeBody.appendChild(row);
             });
 
-            // Add total row
-            const totalRow = document.createElement('tr');
-            totalRow.className = 'bg-gray-50 font-semibold border-t-2 border-gray-200';
-            
-            const totalLabelCell = document.createElement('td');
-            totalLabelCell.colSpan = 2;
-            totalLabelCell.className = 'px-4 py-4';
-            totalLabelCell.innerHTML = `
-                <div class="text-gray-800">Total Batch Weight</div>
-                <div class="text-gray-600">الوزن الإجمالي</div>
-            `;
 
-            const totalWeightCell = document.createElement('td');
-            totalWeightCell.className = 'px-4 py-4 text-right';
-            totalWeightCell.innerHTML = `
-                <div class="text-gray-800">${Math.round(totalWeight).toLocaleString()} g</div>
-                <div class="text-gray-600">${Math.floor(totalWeight / 1000).toLocaleString()} kg</div>
-            `;
-
-            totalRow.appendChild(totalLabelCell);
-            totalRow.appendChild(totalWeightCell);
-            recipeBody.appendChild(totalRow);
-
-            // Show results
-            resultContainer.classList.remove('hidden');
-        }
     </script>
 </body>
 </html>

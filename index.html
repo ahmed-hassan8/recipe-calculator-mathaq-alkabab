@@ -24,7 +24,6 @@
         }
         
         .select-wrapper select {
-            /* Removed appearance none to enhance compatibility */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
@@ -118,38 +117,7 @@
                     { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 }
                 ]
             },
-            'chicken-kebab': {
-                code: '',
-                name: { en: 'Chicken Kebab', ar: 'كباب دجاج' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm14', nameEn: 'Chicken Shawarma', nameAr: 'شاورما فراخ', weight: 820 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 180 },
-                    { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
-                    { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
-                    { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 45 },
-                    { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 15 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 }
-                ]
-            },
-            'shish-tawook': {
-                code: 'm90',
-                name: { en: 'Shish Tawook', ar: 'شيش طاووق' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm15', nameEn: 'Chicken Breasts', nameAr: 'صدور دجاج', weight: 1000 },
-                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
-                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
-                    { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 13 },
-                    { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 7 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
-                    { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
-                ]
-            }
+            // other recipes
         };
 
         // Initialize select options
@@ -163,18 +131,17 @@
 
         // Event listener for calculate button
         document.getElementById('calculateBtn').addEventListener('click', function () {
-            const selectedRecipeKey = recipeSelect.value; // Get selected recipe key
-            const selectedRecipe = recipes[selectedRecipeKey]; // Get the corresponding recipe
-            const newBatchWeight = parseFloat(document.getElementById('weightInput').value); // Get user input for weight
+            const selectedRecipeKey = recipeSelect.value;
+            const selectedRecipe = recipes[selectedRecipeKey];
+            const newBatchWeight = parseFloat(document.getElementById('weightInput').value);
 
-            // Check if recipe and weight are selected
             if (!selectedRecipe || isNaN(newBatchWeight)) {
                 alert('Please select a recipe and enter a valid weight.');
                 return;
             }
 
             const calculatedRecipe = calculateNewRecipe(selectedRecipe.ingredients, selectedRecipe.batchWeight, newBatchWeight);
-            updateTable(calculatedRecipe, newBatchWeight * 1000); // Convert kg to g for total weight
+            updateTable(calculatedRecipe);
         });
 
         // Function to calculate new ingredient weights
@@ -186,7 +153,7 @@
         }
 
         // Function to update the table with calculated values
-        function updateTable(calculatedRecipe, totalWeight) {
+        function updateTable(calculatedRecipe) {
             const resultContainer = document.getElementById('resultContainer');
             const recipeBody = document.getElementById('recipeBody');
             
@@ -214,9 +181,6 @@
                     <div class="text-sm font-medium text-gray-800">
                         ${ingredient.newWeight.toLocaleString()} g
                     </div>
-                    <div class="text-xs text-gray-500">
-                        ${(ingredient.newWeight / 1000).toFixed(2)} kg
-                    </div>
                 `;
                 
                 row.appendChild(codeCell);
@@ -224,29 +188,6 @@
                 row.appendChild(weightCell);
                 recipeBody.appendChild(row);
             });
-
-            // Add total row
-            const totalRow = document.createElement('tr');
-            totalRow.className = 'bg-gray-50 font-semibold border-t-2 border-gray-200';
-            
-            const totalLabelCell = document.createElement('td');
-            totalLabelCell.colSpan = 2;
-            totalLabelCell.className = 'px-4 py-4';
-            totalLabelCell.innerHTML = `
-                <div class="text-gray-800">Total Batch Weight</div>
-                <div class="text-gray-600">الوزن الإجمالي</div>
-            `;
-
-            const totalWeightCell = document.createElement('td');
-            totalWeightCell.className = 'px-4 py-4 text-right';
-            totalWeightCell.innerHTML = `
-                <div class="text-gray-800">${totalWeight.toLocaleString()} g</div>
-                <div class="text-gray-600">${(totalWeight / 1000).toFixed(2)} kg</div>
-            `;
-
-            totalRow.appendChild(totalLabelCell);
-            totalRow.appendChild(totalWeightCell);
-            recipeBody.appendChild(totalRow);
 
             // Show results
             resultContainer.classList.remove('hidden');

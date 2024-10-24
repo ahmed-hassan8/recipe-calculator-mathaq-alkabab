@@ -237,12 +237,15 @@
                 <div class="text-gray-600">الوزن الإجمالي</div>
             `;
 
-            const totalWeightCell = document.createElement('td');
-            totalWeightCell.className = 'px-4 py-4 text-right';
-            totalWeightCell.innerHTML = `
-                <div class="text-gray-800">${totalWeight.toLocaleString()} g</div>
-                <div class="text-gray-600">${(totalWeight / 1000).toFixed(2)} kg</div>
+            const weightCell.innerHTML = `
+                <div class="text-sm font-medium text-gray-800">
+                    ${Math.round(ingredient.newWeight).toLocaleString()} g
+                </div>
+                <div class="text-xs text-gray-500">
+                    ${(ingredient.newWeight / 1000).toFixed(2)} kg
+                </div>
             `;
+
 
             totalRow.appendChild(totalLabelCell);
             totalRow.appendChild(totalWeightCell);

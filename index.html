@@ -98,7 +98,7 @@
     </div>
 
     <script>
-         // Sample recipes
+        // Sample recipes
         const recipes = {
             'meat-kebab': {
                 code: 'm88',
@@ -117,39 +117,9 @@
                     { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 }
                 ]
             },
-            'chicken-kebab': {
-                code: '',
-                name: { en: 'Chicken Kebab', ar: 'كباب دجاج' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm14', nameEn: 'Chicken Shawarma', nameAr: 'شاورما فراخ', weight: 820 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 180 },
-                    { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
-                    { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
-                    { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 45 },
-                    { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 15 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 }
-                ]
-            },
-            'shish-tawook': {
-                code: 'm90',
-                name: { en: 'Shish Tawook', ar: 'شيش طاووق' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm15', nameEn: 'Chicken Breasts', nameAr: 'صدور دجاج', weight: 1000 },
-                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
-                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
-                    { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 13 },
-                    { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 7 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
-                    { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
-                ]
-            }
+            // other recipes
         };
+
         // Initialize select options
         const recipeSelect = document.getElementById('recipeSelect');
         Object.entries(recipes).forEach(([key, recipe]) => {

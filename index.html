@@ -75,7 +75,8 @@
                 </div>
                 
                 <div class="flex-1">
-                    <input type="number" id="weightInput" step="0.1" min="0.1" placeholder="Weight in GM - الوزن بالجرام" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-number focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <input type="number" id="weightInput" step="0.1" min="0.1" placeholder="Weight in KG - الوزن بالكيلوغرام" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-number focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
                 </div>
                 
                 <button id="calculateBtn" class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
@@ -168,8 +169,10 @@
         document.getElementById('calculateBtn').addEventListener('click', function () {
             const selectedRecipeKey = recipeSelect.value;
             const selectedRecipe = recipes[selectedRecipeKey];
-            const newBatchWeight = parseFloat(document.getElementById('weightInput').value);
-
+        // Convert input from kg to grams
+            const newBatchWeightInKg = parseFloat(document.getElementById('weightInput').value);
+            const newBatchWeight = newBatchWeightInKg * 1000;
+            
             if (!selectedRecipe || isNaN(newBatchWeight)) {
                 alert('Please select a recipe and enter a valid weight.');
                 return;

@@ -56,54 +56,77 @@
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-        <div class="recipe-card p-6">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-2xl font-bold text-gray-800">Recipe Calculator</h1>
-                <h2 class="text-xl text-gray-600">حاسبة الوصفات</h2>
-            </div>
-            
-            <footer class="mt-8 p-4 bg-gray-100 text-center text-gray-600">
-                <p>Created By -Business Developer: Ahmed Hassan</p>
-                <p>Phone Number: 0563182026</p>
-            </footer>
-            <div class="space-y-4 md:space-y-0 md:flex md:gap-4 mb-8">
-                <div class="select-wrapper flex-1">
-                    <select id="recipeSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="" disabled selected>Select Recipe - اختر الوصفة</option>
-                    </select>
+    <!-- Authentication Section -->
+    <div id="auth" class="max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Login</h2>
+        <input id="username" type="text" placeholder="Username" class="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg">
+        <input id="password" type="password" placeholder="Password" class="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg">
+        <button onclick="authenticate()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg">Login</button>
+        <p id="error-message" class="text-red-500 mt-4 hidden">Incorrect username or password.</p>
+    </div>
+
+    <!-- Main Content Section -->
+    <div id="content" class="hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="recipe-card p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-2xl font-bold text-gray-800">Recipe Calculator</h1>
+                    <h2 class="text-xl text-gray-600">حاسبة الوصفات</h2>
                 </div>
                 
-                <div class="flex-1">
-                    <input type="number" id="weightInput" step="0.1" min="0.1" placeholder="Weight in KG - الوزن بالكيلوغرام" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-number focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-
+                <div class="space-y-4 md:space-y-0 md:flex md:gap-4 mb-8">
+                    <div class="select-wrapper flex-1">
+                        <select id="recipeSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="" disabled selected>Select Recipe - اختر الوصفة</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <input type="number" id="weightInput" step="0.1" min="0.1" placeholder="Weight in KG - الوزن بالكيلوغرام" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-number focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <button id="calculateBtn" class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                        Calculate - احسب
+                    </button>
                 </div>
-                
-                <button id="calculateBtn" class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
-                    Calculate - احسب
-                </button>
-            </div>
 
-            <div id="resultContainer" class="hidden">
-                <div class="overflow-x-auto table-container">
-                    <table class="w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Code - الرمز</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ingredient - المكون</th>
-                                <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Weight (g) - الوزن</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recipeBody">
-                        </tbody>
-                    </table>
+                <div id="resultContainer" class="hidden">
+                    <div class="overflow-x-auto table-container">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Code - الرمز</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ingredient - المكون</th>
+                                    <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Weight (g) - الوزن</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recipeBody"></tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <footer class="mt-8 p-4 bg-gray-100 text-center text-gray-600">
+                    <p>Created By - Business Developer: Ahmed Hassan</p>
+                    <p>Phone Number: 0563182026</p>
+                </footer>
             </div>
         </div>
     </div>
 
     <script>
-  // Recipe database
+        // Authentication Function
+        function authenticate() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "مذاق الكباب" && password === "2018") {
+                document.getElementById("auth").classList.add("hidden");
+                document.getElementById("content").classList.remove("hidden");
+            } else {
+                document.getElementById("error-message").classList.remove("hidden");
+            }
+        }
+ // Recipe database
   const recipes = {
     'meat-kebab': {
       code: 'm87',
@@ -216,10 +239,9 @@
         document.getElementById('calculateBtn').addEventListener('click', function () {
             const selectedRecipeKey = recipeSelect.value;
             const selectedRecipe = recipes[selectedRecipeKey];
-        // Convert input from kg to grams
             const newBatchWeightInKg = parseFloat(document.getElementById('weightInput').value);
             const newBatchWeight = newBatchWeightInKg * 1000;
-            
+
             if (!selectedRecipe || isNaN(newBatchWeight)) {
                 alert('Please select a recipe and enter a valid weight.');
                 return;
@@ -229,7 +251,6 @@
             updateTable(calculatedRecipe);
         });
 
-        // Function to calculate new ingredient weights
         function calculateNewRecipe(ingredients, originalBatchWeight, newBatchWeight) {
             return ingredients.map(ingredient => ({
                 ...ingredient,
@@ -237,44 +258,35 @@
             }));
         }
 
-        // Function to update the table with calculated values
         function updateTable(calculatedRecipe) {
             const resultContainer = document.getElementById('resultContainer');
             const recipeBody = document.getElementById('recipeBody');
             
-            // Clear previous results
             recipeBody.innerHTML = '';
-            
             calculatedRecipe.forEach(ingredient => {
                 const row = document.createElement('tr');
                 row.className = 'highlight-row border-b hover:bg-gray-50 transition-colors';
-                
+
                 const codeCell = document.createElement('td');
                 codeCell.className = 'px-4 py-3 text-sm text-gray-600';
                 codeCell.textContent = ingredient.code || '-';
-                
+
                 const nameCell = document.createElement('td');
                 nameCell.className = 'px-4 py-3';
-                nameCell.innerHTML = `
-                    <div class="text-sm text-gray-800 font-medium">${ingredient.nameEn}</div>
-                    <div class="text-sm text-gray-600">${ingredient.nameAr}</div>
-                `;
-                
+                nameCell.innerHTML = `<div class="text-sm text-gray-800 font-medium">${ingredient.nameEn}</div>
+                                      <div class="text-sm text-gray-600">${ingredient.nameAr}</div>`;
+
                 const weightCell = document.createElement('td');
                 weightCell.className = 'px-4 py-3 text-right';
-                weightCell.innerHTML = `
-                    <div class="text-sm font-medium text-gray-800">
-                        ${ingredient.newWeight.toLocaleString()} g
-                    </div>
-                `;
-                
+                weightCell.innerHTML = `<div class="text-sm font-medium text-gray-800">
+                                        ${ingredient.newWeight.toLocaleString()} g</div>`;
+
                 row.appendChild(codeCell);
                 row.appendChild(nameCell);
                 row.appendChild(weightCell);
                 recipeBody.appendChild(row);
             });
 
-            // Show results
             resultContainer.classList.remove('hidden');
         }
     </script>

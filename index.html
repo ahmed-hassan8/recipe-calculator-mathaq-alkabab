@@ -154,105 +154,268 @@
         }
 
         // Recipe database
-        const recipes = {
-            'meat-kebab': {
-                code: 'm87',
-                name: { en: 'Meat Kebab', ar: 'كباب لحم' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 25 },
-                    { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
-                    { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
-                    { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
-                    { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
-                    { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
-                    { code: 'm72', nameEn: 'Topside Beef', nameAr: 'لحم توب سايد', weight: 650 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 250 },
-                    { code: 'sk-1229', nameEn: 'Bobby Veal Meat', nameAr: 'لحم بيوفيل', weight: 100 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 }
-                ]
-            },
-            'chicken-kebab': {
-                code: 'm88',
-                name: { en: 'Chicken Kebab', ar: 'كباب دجاج' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm14', nameEn: 'Chicken Shawarma', nameAr: 'شاورما فراخ', weight: 820 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 180 },
-                    { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
-                    { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
-                    { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 45 },
-                    { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 15 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 }
-                ]
-            },
-            'shish-tawook': {
-                code: 'm90',
-                name: { en: 'Shish Tawook', ar: 'شيش طاووق' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm15', nameEn: 'Chicken Breasts', nameAr: 'صدور دجاج', weight: 1000 },
-                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
-                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
-                    { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 13 },
-                    { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 7 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
-                    { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
-                ]
-            },
-            'tikka': {
-                code: 'sk-1252',
-                name: { en: 'Tikka', ar: 'تكا' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm15', nameEn: 'Chicken Breasts', nameAr: 'صدور دجاج', weight: 1000 },
-                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
-                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
-                    { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 13 },
-                    { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 7 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
-                    { code: 'sk-1235', nameEn: 'Strawberry Color Powder', nameAr: 'بودر لون فراولة', weight: 1 }
-                ]
-            },
-            'skewers': {
-                code: 'm89',
-                name: { en: 'Skewers', ar: 'أوصال' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'sk-1245', nameEn: 'Meat Skewers', nameAr: 'أوصال لحم', weight: 1000 },
-                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
-                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
-                    { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
-                    { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
-                    { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 35 }
-                ]
-            },
-            'wings': {
-                code: 'sk-1221',
-                name: { en: 'Wings', ar: 'أجنحة' },
-                batchWeight: 1000,
-                ingredients: [
-                    { code: 'm59', nameEn: 'Chicken Wings', nameAr: 'أجنحة دجاج', weight: 1000 },
-                    { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
-                    { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 5 },
-                    { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
-                    { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
-                    { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 18.5 },
-                    { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 13 },
-                    { code: '', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
-                    { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
-                ]
-            }
-        };
-
+        const data = {
+    'garlic-sauce': {
+        code: 'm98',
+        name: { en: 'Garlic Sauce', ar: 'صوص الثومية' },
+        batchWeight: 10000,
+        ingredients: [
+            { code: 'sk-1274', nameEn: 'Cornstarch', nameAr: 'نشا ذرة', weight: 6000 },
+            { code: 'm69', nameEn: 'Eggs', nameAr: 'بيض', weight: 15 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 45 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 3000 },
+            { code: 'm40', nameEn: 'Vinegar', nameAr: 'خل', weight: 20 },
+            { code: 'm43', nameEn: 'Garlic', nameAr: 'ثوم', weight: 150 },
+            { code: 'm77', nameEn: 'Lemon Salt', nameAr: 'ملح ليمون', weight: 45 }
+        ]
+    },
+    'baba-ghanoush': {
+        code: 'm93',
+        name: { en: 'Baba Ghanoush', ar: 'بابا غنوج' },
+        batchWeight: 9980,
+        ingredients: [
+            { code: 'sk-1240', nameEn: 'Grilled Eggplant', nameAr: 'باذنجان مشوي', weight: 7200 },
+            { code: 'm70', nameEn: 'Tomatoes', nameAr: 'طماطم', weight: 590 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 60 },
+            { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 670 },
+            { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 700 },
+            { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 30 },
+            { code: 'unknown', nameEn: 'Cumin', nameAr: 'كمون', weight: 20 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 400 },
+            { code: 'sk-1241', nameEn: 'Pomegranate Molasses', nameAr: 'دبس رمان', weight: 80 },
+            { code: 'm8', nameEn: 'Olive Oil', nameAr: 'زيت زيتون', weight: 330 },
+            { code: 'm77', nameEn: 'Lemon Salt', nameAr: 'ملح ليمون', weight: 60 }
+        ]
+    },
+    'eggplant-mutabbal': {
+        code: 'm92',
+        name: { en: 'Eggplant Mutabbal', ar: 'متبل باذنجان' },
+        batchWeight: 9810,
+        ingredients: [
+            { code: 'sk-1240', nameEn: 'Grilled Eggplant', nameAr: 'باذنجان مشوي', weight: 7000 },
+            { code: 'm1', nameEn: 'Al Jameel Tahini', nameAr: 'طحينة الجميل', weight: 1330 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 55 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 1000 },
+            { code: 'sk-1234', nameEn: 'Labneh', nameAr: 'لبنة', weight: 500 },
+            { code: 'm77', nameEn: 'Lemon Salt', nameAr: 'ملح ليمون', weight: 55 }
+        ]
+    },
+    'meat-kebab': {
+        code: 'm87',
+        name: { en: 'Meat Kebab', ar: 'كباب لحم' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 25 },
+            { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
+            { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
+            { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
+            { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
+            { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
+            { code: 'm72', nameEn: 'Topside Beef', nameAr: 'لحم توب سايد', weight: 650 },
+            { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 250 },
+            { code: 'sk-1229', nameEn: 'Bobby Veal Meat', nameAr: 'لحم بيوفيل', weight: 100 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 }
+        ]
+    },
+    'chicken-kebab': {
+        code: 'm88',
+        name: { en: 'Chicken Kebab', ar: 'كباب دجاج' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'm14', nameEn: 'Chicken Shawarma', nameAr: 'شاورما فراخ', weight: 820 },
+            { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 180 },
+            { code: 'm44', nameEn: 'Red Onion', nameAr: 'بصل أحمر', weight: 25 },
+            { code: 'm33', nameEn: 'Green Bell Pepper', nameAr: 'فلفل رومي أخضر', weight: 20 },
+            { code: 'm32', nameEn: 'Red Bell Pepper', nameAr: 'فلفل رومي أحمر', weight: 20 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 45 },
+            { code: 'm34', nameEn: 'Parsley', nameAr: 'بقدونس', weight: 15 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 }
+        ]
+    },
+    'shish-tawook': {
+        code: 'm90',
+        name: { en: 'Shish Tawook', ar: 'شيش طاووق' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'm15', nameEn: 'Chicken Breasts', nameAr: 'صدور دجاج', weight: 1000 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+            { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 13 },
+            { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 7 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
+            { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
+        ]
+    },
+    'tikka': {
+        code: 'sk-1252',
+        name: { en: 'Tikka', ar: 'تكا' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'm15', nameEn: 'Chicken Breasts', nameAr: 'صدور دجاج', weight: 1000 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+            { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 13 },
+            { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 7 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
+            { code: 'sk-1235', nameEn: 'Strawberry Color Powder', nameAr: 'بودر لون فراولة', weight: 1 }
+        ]
+    },
+    'meat-skewers': {
+        code: 'm89',
+        name: { en: 'Meat Skewers', ar: 'أوصال لحم' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'sk-1245', nameEn: 'Meat Skewers', nameAr: 'أوصال لحم', weight: 1000 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 6 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+            { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 2 },
+            { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1 },
+            { code: 'sk-1228', nameEn: 'Fat', nameAr: 'شحم', weight: 35 }
+        ]
+    },
+    'grilled-chicken': {
+        code: 'm94',
+        name: { en: 'Grilled Chicken', ar: 'دجاج على الفحم' },
+        batchWeight: 1,
+        ingredients: [
+            { code: 'sk-1243', nameEn: 'Chilled Chicken', nameAr: 'دجاج مبرد', weight: 1 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 5 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+            { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 18.5 },
+            { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 13 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
+            { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
+        ]
+    },
+    'wings': {
+        code: 'sk-1221',
+        name: { en: 'Wings', ar: 'أجنحة' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'm59', nameEn: 'Chicken Wings', nameAr: 'أجنحة دجاج', weight: 1000 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 5 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+            { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 18.5 },
+            { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 13 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
+            { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
+        ]
+    },
+    'thighs': {
+        code: 'sk-1438',
+        name: { en: 'Thighs', ar: 'أفخاذ' },
+        batchWeight: 1000,
+        ingredients: [
+            { code: 'm60', nameEn: 'Chicken Thighs', nameAr: 'أفخاذ الدجاج', weight: 1000 },
+            { code: 'sk-1239', nameEn: 'Yogurt', nameAr: 'زبادي', weight: 35 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 5 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 35 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 35 },
+            { code: 'sk-1244', nameEn: 'Orange', nameAr: 'برتقال', weight: 18.5 },
+            { code: 'm29', nameEn: 'Lemon', nameAr: 'ليمون', weight: 13 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 10 },
+            { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 1 }
+        ]
+    },
+    'tahini': {
+        code: 'm97',
+        name: { en: 'Tahini', ar: 'طحينة' },
+        batchWeight: 17000,
+        ingredients: [
+            { code: 'm91', nameEn: 'Hummus', nameAr: 'حمص', weight: 6000 },
+            { code: 'm1', nameEn: 'Al Jameel Tahini', nameAr: 'طحينة الجميل', weight: 3250 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 60 },
+            { code: 'sk-1238', nameEn: 'Ice', nameAr: 'ثلج', weight: 1500 },
+            { code: 'm77', nameEn: 'Lemon Salt', nameAr: 'ملح ليمون', weight: 60 },
+            { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 30 },
+            { code: 'unknown', nameEn: 'Water', nameAr: 'ماء', weight: 6000 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 30 }
+        ]
+    },
+    'mixed-spice': {
+        code: 'm?',
+        name: { en: 'Mixed Spice', ar: 'بهار مشكل' },
+        batchWeight: 13400,
+        ingredients: [
+            { code: 'm48', nameEn: 'Ground Coriander', nameAr: 'كزبرة مطحونة', weight: 6000 },
+            { code: 'm51', nameEn: 'Ginger Ground', nameAr: 'زنجبيل مطحون', weight: 2000 },
+            { code: 'm52', nameEn: 'Garlic Powder', nameAr: 'ثوم بودر', weight: 2000 },
+            { code: 'm49', nameEn: 'Indian Black Pepper', nameAr: 'فلفل أسود هندي', weight: 1500 },
+            { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 1000 },
+            { code: 'sk-1231', nameEn: 'Cardamom', nameAr: 'هيل', weight: 400 },
+            { code: 'sk-1232', nameEn: 'Curry Powder', nameAr: 'كاري بودر', weight: 500 }
+        ]
+    },
+    'taco-sauce': {
+        code: 'm95',
+        name: { en: 'Taco Sauce', ar: 'صوص تكا' },
+        batchWeight: 14000,
+        ingredients: [
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 30 },
+            { code: 'm69', nameEn: 'Eggs', nameAr: 'بيض', weight: 15 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 3000 },
+            { code: 'm85', nameEn: 'Mustard', nameAr: 'خردل', weight: 1000 },
+            { code: 'm4', nameEn: 'Jar of tomato ketchup', nameAr: 'جركن كاتشب طماطم', weight: 2500 },
+            { code: 'sk-1274', nameEn: 'Cornstarch', nameAr: 'نشا ذرة', weight: 6000 },
+            { code: 'm77', nameEn: 'Lemon Salt', nameAr: 'ملح ليمون', weight: 30 },
+            { code: 'sk-1275', nameEn: 'Chili Pepper Spice', nameAr: 'بهار فلفل شطة', weight: 30 },
+            { code: 'm11', nameEn: 'Sugar', nameAr: 'سكر', weight: 250 },
+            { code: 'sk-1232', nameEn: 'Curry Powder', nameAr: 'كاري بودر', weight: 20 },
+            { code: 'm40', nameEn: 'Vinegar', nameAr: 'خل', weight: 20 }
+        ]
+    },
+    'double-x-sauce': {
+        code: 'sk-1262',
+        name: { en: 'Double X Sauce', ar: 'صوص دبل اكس شيش' },
+        batchWeight: 20000,
+        ingredients: [
+            { code: 'unknown', nameEn: 'Tomato paste', nameAr: 'صلصة معجون الطماطم', weight: 500 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 35 },
+            { code: 'm3', nameEn: 'Pepper Sauce', nameAr: 'صلصة فلفل', weight: 3000 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 700 },
+            { code: 'm4', nameEn: 'Jar of tomato ketchup', nameAr: 'جركن كاتشب طماطم', weight: 5000 },
+            { code: 'unknown', nameEn: 'Mixed Spice', nameAr: 'بهار مشكل', weight: 100 },
+            { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 20 },
+            { code: 'unknown', nameEn: 'Water', nameAr: 'ماء', weight: 11000 }
+        ]
+    },
+    'cheese-sauce': {
+        code: 'm99',
+        name: { en: 'Cheese Sauce', ar: 'صوص جبن' },
+        batchWeight: 11000,
+        ingredients: [
+            { code: 'm46', nameEn: 'Milk', nameAr: 'حليب', weight: 6 },
+            { code: 'm36', nameEn: 'Cheese Slices', nameAr: 'جبن شرائح', weight: 336 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 15 },
+            { code: 'sk-1278', nameEn: 'Egg Yolk Powder', nameAr: 'بودر لون صفار البيض', weight: 15 },
+            { code: 'sk-1439', nameEn: 'Ghee', nameAr: 'سمنة', weight: 40 }
+        ]
+    },
+    'hummus': {
+        code: 'm91',
+        name: { en: 'Hummus', ar: 'حمص' },
+        batchWeight: 12920,
+        ingredients: [
+            { code: 'sk-1251', nameEn: '12mm Chickpeas', nameAr: 'حمص حب 12 مم', weight: 2750 },
+            { code: 'm1', nameEn: 'Al Jameel Tahini', nameAr: 'طحينة الجميل', weight: 2600 },
+            { code: 'sk-1230', nameEn: 'Salt', nameAr: 'ملح', weight: 60 },
+            { code: 'sk-1238', nameEn: 'Ice', nameAr: 'ثلج', weight: 2500 },
+            { code: 'm39', nameEn: 'Corn Oil', nameAr: 'زيت ذرة', weight: 700 },
+            { code: 'm77', nameEn: 'Lemon Salt', nameAr: 'ملح ليمون', weight: 60 }
+        ]
+    }
+};
         // Initialize select options
         const recipeSelect = document.getElementById('recipeSelect');
         Object.entries(recipes).forEach(([key, recipe]) => {

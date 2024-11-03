@@ -101,10 +101,11 @@
                 </div>
                 
                 <div class="space-y-4 md:space-y-0 md:flex md:gap-4 mb-8">
-                    <div class="select-wrapper flex-1">
-                        <select id="recipeSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="" disabled selected>Select Recipe - اختر الوصفة</option>
-                        </select>
+                    <div class="select-wrapper flex-1 relative">
+                        <input type="text" id="searchRecipe" placeholder="Search Recipe - ابحث عن الوصفة" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <div id="recipeDropdown" class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <div id="recipeOptions" class="divide-y divide-gray-200"></div>
+                        </div>
                     </div>
                     
                     <div class="flex-1">
@@ -419,12 +420,61 @@
 
         // Initialize select options
         const recipeSelect = document.getElementById('recipeSelect');
-        Object.entries(recipes).forEach(([key, recipe]) => {
-            const option = document.createElement('option');
-            option.value = key;
-            option.textContent = `${recipe.code ? `[${recipe.code}] ` : ''}${recipe.name.en} - ${recipe.name.ar}`;
-            recipeSelect.appendChild(option);
+        const searchRecipe = document.getElementById('searchRecipe');
+        const recipeDropdown = document.getElementById('recipeDropdown');
+        const recipeOptions = document.getElementById('recipeOptions');
+
+        function populateDropdown() {
+            recipeOptions.innerHTML = '';
+            Object.entries(recipes).forEach(([key, recipe]) => {
+                const option = document.createElement('div');
+                option.className = 'px-4 py-2 cursor-pointer hover:bg-gray-100';
+                option.dataset.key = key;
+                option.textContent = `${recipe.code ? `[${recipe.code}] ` : ''}${recipe.name.en} - ${recipe.name.ar}`;
+                option.addEventListener('click', () => selectRecipe(key));
+                recipeOptions.appendChild(option);
+            });
+        }
+
+        function selectRecipe(key) {
+            searchRecipe.value = recipes[key].name.en + ' - ' + recipes[key].name.ar;
+            recipeDropdown.classList.add('hidden');
+            recipeSelect.value = key;
+        }
+
+        searchRecipe.addEventListener('input', () => {
+            const searchValue = searchRecipe.value.toLowerCase();
+            recipeOptions.innerHTML = '';
+            Object.entries(recipes).forEach(([key, recipe]) => {
+                if (recipe.name.en.toLowerCase().includes(searchValue) || recipe.name.ar.toLowerCase().includes(searchValue)) {
+                    const option = document.createElement('div');
+                    option.className = 'px-4 py-2 cursor-pointer hover:bg-gray-100';
+                    option.dataset.key = key;
+                    option.textContent = `${recipe.code ? `[${recipe.code}] ` : ''}${recipe.name.en} - ${recipe.name.ar}`;
+                    option.addEventListener('click', () => selectRecipe(key));
+                    recipeOptions.appendChild(option);
+                }
+            });
+            if (recipeOptions.children.length > 0) {
+                recipeDropdown.classList.remove('hidden');
+            } else {
+                recipeDropdown.classList.add('hidden');
+            }
         });
+
+        searchRecipe.addEventListener('focus', () => {
+            if (recipeOptions.children.length > 0) {
+                recipeDropdown.classList.remove('hidden');
+            }
+        });
+
+        searchRecipe.addEventListener('blur', () => {
+            setTimeout(() => {
+                recipeDropdown.classList.add('hidden');
+            }, 200);
+        });
+
+        populateDropdown();
 
         // Event listener for calculate button
         document.getElementById('calculateBtn').addEventListener('click', function () {

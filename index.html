@@ -440,6 +440,7 @@
             searchRecipe.value = recipes[key].name.en + ' - ' + recipes[key].name.ar;
             recipeDropdown.classList.add('hidden');
             recipeSelect.value = key;
+            console.log(`Selected Recipe Key: ${key}`); // Debugging
         }
 
         searchRecipe.addEventListener('input', () => {
@@ -479,6 +480,7 @@
         // Event listener for calculate button
         document.getElementById('calculateBtn').addEventListener('click', function () {
             const selectedRecipeKey = recipeSelect.value;
+            console.log(`Selected Recipe Key in Calculate: ${selectedRecipeKey}`); // Debugging
             const selectedRecipe = recipes[selectedRecipeKey];
             const newBatchWeightInKg = parseFloat(document.getElementById('weightInput').value);
             const newBatchWeight = newBatchWeightInKg * 1000;

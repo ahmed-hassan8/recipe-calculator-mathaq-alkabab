@@ -443,10 +443,16 @@
         });
 
         function calculateNewRecipe(ingredients, originalBatchWeight, newBatchWeight) {
-            return ingredients.map(ingredient => ({
-                ...ingredient,
-                newWeight: Math.round((ingredient.weight / originalBatchWeight) * newBatchWeight * 100) / 100
-            }));
+            return ingredients.map(ingredient => {
+                let newWeight = Math.round((ingredient.weight / originalBatchWeight) * newBatchWeight * 100) / 100;
+                if (newWeight > 10) {
+                    newWeight = Math.ceil(newWeight);
+                }
+                return {
+                    ...ingredient,
+                    newWeight
+                };
+            });
         }
 
         function updateTable(calculatedRecipe) {

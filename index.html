@@ -30,13 +30,6 @@
             position: relative;
         }
         
-        .select-wrapper select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.5em 1.5em;
-        }
-        
         .input-number {
             appearance: none;
         }
@@ -106,6 +99,8 @@
                         <div id="recipeDropdown" class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             <div id="recipeOptions" class="divide-y divide-gray-200"></div>
                         </div>
+                        <!-- Hidden input to store selected recipe key -->
+                        <input type="hidden" id="recipeSelect">
                     </div>
                     
                     <div class="flex-1">
@@ -154,7 +149,7 @@
             }
         }
 
-        // Recipe database
+       // Recipe database
         const recipes = {
             'garlic-sauce': {
                 code: 'm98',
@@ -419,7 +414,6 @@
         };
 
         // Initialize select options
-        const recipeSelect = document.getElementById('recipeSelect');
         const searchRecipe = document.getElementById('searchRecipe');
         const recipeDropdown = document.getElementById('recipeDropdown');
         const recipeOptions = document.getElementById('recipeOptions');
@@ -439,7 +433,7 @@
         function selectRecipe(key) {
             searchRecipe.value = recipes[key].name.en + ' - ' + recipes[key].name.ar;
             recipeDropdown.classList.add('hidden');
-            recipeSelect.value = key;
+            document.getElementById("recipeSelect").value = key; // Store selected recipe key
             console.log(`Selected Recipe Key: ${key}`); // Debugging
         }
 
@@ -456,31 +450,22 @@
                     recipeOptions.appendChild(option);
                 }
             });
-            if (recipeOptions.children.length > 0) {
-                recipeDropdown.classList.remove('hidden');
-            } else {
-                recipeDropdown.classList.add('hidden');
-            }
+            recipeDropdown.classList.toggle('hidden', recipeOptions.children.length === 0);
         });
 
         searchRecipe.addEventListener('focus', () => {
-            if (recipeOptions.children.length > 0) {
-                recipeDropdown.classList.remove('hidden');
-            }
+            recipeDropdown.classList.toggle('hidden', recipeOptions.children.length === 0);
         });
 
         searchRecipe.addEventListener('blur', () => {
-            setTimeout(() => {
-                recipeDropdown.classList.add('hidden');
-            }, 200);
+            setTimeout(() => recipeDropdown.classList.add('hidden'), 200);
         });
 
         populateDropdown();
 
         // Event listener for calculate button
         document.getElementById('calculateBtn').addEventListener('click', function () {
-            const selectedRecipeKey = recipeSelect.value;
-            console.log(`Selected Recipe Key in Calculate: ${selectedRecipeKey}`); // Debugging
+            const selectedRecipeKey = document.getElementById("recipeSelect").value;
             const selectedRecipe = recipes[selectedRecipeKey];
             const newBatchWeightInKg = parseFloat(document.getElementById('weightInput').value);
             const newBatchWeight = newBatchWeightInKg * 1000;
